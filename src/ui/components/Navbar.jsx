@@ -47,12 +47,6 @@ export const Navbar = () => {
                   Search
                </NavLink>
 
-               <NavLink
-                  className="nav-item nav-link"
-                  to="/hero"
-               >
-                  Heroe
-               </NavLink>
             </div>
          </div>
 
