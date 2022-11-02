@@ -1,6 +1,9 @@
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import { HeroCard } from './../components/HeroCard';
 import { useForm } from './../../hooks/useForm';
-import { useLocation, useNavigate } from 'react-router-dom';
+
+import { getHeroByName } from './../helpers/getHeroeByName';
 
 
 export const SearchPage = () => {
@@ -8,21 +11,27 @@ export const SearchPage = () => {
    const navigate = useNavigate();
    const location = useLocation();
 
-   let query = new URLSearchParams(location.search).get("q")
+   let heroes = []
 
+   let query = new URLSearchParams(location.search).get("q")
+   if (query) heroes = getHeroByName(query);
+
+   const showSearch = (query.length === 0)
+   const showError = (query.length > 0) && heroes.length === 0
 
    const { searchText, onInputChange } = useForm({
-      searchText: ''
+      searchText: query
    })
 
 
    const handleSubmit = (e) => {
       e.preventDefault()
-      if (searchText.trim().length <= 1) return;
-
+      // if (searchText.trim().length <= 1) return;
 
       navigate(`?q=${searchText}`)
    }
+
+   // NOTE - cuando pasas un Arreglo con porps usa el spread ln/74
 
    return (
       <>
@@ -56,17 +65,37 @@ export const SearchPage = () => {
                <h4>Results</h4>
                <hr />
 
-               <div className="alert alert-primary">
+               <div
+                  className="alert alert-primary animate__animated animate__fadeIn "
+                  style={ { display: showSearch ? '' : 'none' } } >
                   Search a hero
                </div>
 
-               <div className="alert alert-danger">
-                  There's no result { query }
+               <div
+                  className="alert alert-danger animate__animated animate__fadeIn"
+                  style={ { display: showError ? '' : 'none' } } >
+                  There's no result <b>{ query }</b>
                </div>
 
-               <HeroCard />
+               {
+                  heroes.map((hero, id) => {
+                     return <HeroCard key={ id } { ...hero } />
+                  })
+               }
+
             </div>
          </div>
       </>
    )
 }
+
+//  NOTE - metodo alterno para mensajes de error y busqueda con ternario
+//  {
+//    query == ''
+//       ? <div className="alert alert-primary">
+//          Search a hero
+//       </div>
+//       : (heroes.length === 0) && <div className="alert alert-danger">
+//          There's no result <b>{ query }</b>
+//       </div>
+// }
