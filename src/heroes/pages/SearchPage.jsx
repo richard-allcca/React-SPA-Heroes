@@ -14,10 +14,17 @@ export const SearchPage = () => {
    let heroes = []
 
    let query = new URLSearchParams(location.search).get("q")
-   if (query) heroes = getHeroByName(query);
 
-   const showSearch = (query.length === 0)
-   const showError = (query.length > 0) && heroes.length === 0
+   let showSearch = ''
+   let showError = ''
+
+   if (query) {
+
+      heroes = getHeroByName(query);
+      showSearch = (query.length === 0)
+      showError = (query.length > 0) && heroes.length === 0
+   }
+
 
    const { searchText, onInputChange } = useForm({
       searchText: query
