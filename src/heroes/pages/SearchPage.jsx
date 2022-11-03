@@ -66,7 +66,7 @@ export const SearchPage = () => {
                <hr />
 
                <div
-                  className="alert alert-primary animate__animated animate__fadeIn "
+                  className="alert alert-primary animate__animated animate__fadeIn"
                   style={ { display: showSearch ? '' : 'none' } } >
                   Search a hero
                </div>
