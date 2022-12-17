@@ -13,6 +13,6 @@ export const PrivateRoute = ({ children }) => {
    localStorage.setItem('lastPath', lastPath);
 
    return (logged)
-      ? children
+      ? children // a heroes
       : <Navigate to='/login' />
 }

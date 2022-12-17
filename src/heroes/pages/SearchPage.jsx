@@ -38,7 +38,7 @@ export const SearchPage = () => {
       navigate(`?q=${searchText}`)
    }
 
-   // NOTE - cuando pasas un Arreglo con porps usa el spread ln/74
+   // NOTE - cuando pasas un Obj con porps usa el spread ln/90
 
    return (
       <>
