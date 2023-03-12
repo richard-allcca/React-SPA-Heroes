@@ -1,62 +1,69 @@
-import { useReducer } from "react"
+import { useMemo, useReducer } from "react";
 import { types } from "../types/types";
 
-import { AuthContext } from "./AuthContext"
-import { authReducer } from './authReducer';
+import { AuthContext } from "./AuthContext";
+import { authReducer } from "./authReducer";
 
-//NOTE - esto es innecesario si usas init con localStorage, en su lugar solo usa {}
+//NOTE - esto es innecesario si usas init con localStorage, mejor usa {} ln/12
 const initialState = {
-   logged: false,
-}
+  logged: false,
+};
 
-const init = () => {
-   const user = JSON.parse(localStorage.getItem('user'))
+function init() {
+  const user = JSON.parse(localStorage.getItem("user"));
 
-   return {
-      logged: !!user,
-      user
-   }
+  return {
+    logged: !!user,
+    user,
+  };
 }
 
 export const AuthProvider = ({ children }) => {
+  const [authState, dispatch] = useReducer(authReducer, initialState, init);
 
-   const [ authState, dispatch ] = useReducer(authReducer, initialState, init)
+  function login(name = "") {
+    const user = { id: "ABC", name };
 
-   const login = (name = '') => {
+    const action = {
+      type: types.login,
+      payload: user,
+    };
 
-      const user = { id: "ABC", name };
+    localStorage.setItem("user", JSON.stringify(user));
 
-      const action = {
-         type: types.login,
-         payload: user
-      }
+    dispatch(action);
+  }
 
-      localStorage.setItem("user", JSON.stringify(user))
+  function logout() {
+    localStorage.removeItem("user");
 
-      dispatch(action);
-   }
+    const action = {
+      type: types.logout,
+    };
 
-   const logout = () => {
+    dispatch(action);
+  }
 
-      localStorage.removeItem("user");
+  // const data = useMemo(() => (//FIXME - it remains to be tested
+  //   {
+  //     ...authState,
 
-      const action = {
-         type: types.logout,
-      }
+  //     login,
+  //     logout,
+  //   }
+  // ), [...authState, login, logout]);
 
-      dispatch(action);
-   }
+  const data = {
+    ...authState,
 
-   const data = {
-      ...authState,
+    login,
+    logout,
+  };
 
-      login,
-      logout
-   }
+  return <AuthContext.Provider value={ data }>{ children }</AuthContext.Provider>;
+};
 
-   return (
-      <AuthContext.Provider value={ data }>
-         { children }
-      </AuthContext.Provider>
-   )
-}
+
+
+
+
