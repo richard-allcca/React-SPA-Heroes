@@ -15,9 +15,7 @@ export const HeroPage = () => {
     navigate('/dc');
   };
 
-  if (!hero) {
-    return <Navigate to='/marvel' />;
-  }
+  if (!hero) return <Navigate to='/marvel' />;
 
   return (
     <div className="row mt-5">
@@ -47,6 +45,7 @@ export const HeroPage = () => {
           <p>{ hero.characters }</p>
 
           <button
+            type="button"
             className="btn btn-outline-primary"
             onClick={ onReturn }>
             Regresar

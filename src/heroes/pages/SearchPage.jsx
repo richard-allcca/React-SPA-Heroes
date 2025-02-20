@@ -13,7 +13,7 @@ export const SearchPage = () => {
 
    let heroes = []
 
-   let query = new URLSearchParams(location.search).get("q")
+   const query = new URLSearchParams(location.search).get("q")
 
    let showSearch = ''
    let showError = ''
@@ -62,7 +62,7 @@ export const SearchPage = () => {
                      onChange={ onInputChange }
                   />
 
-                  <button className="btn btn-outline-primary mt-1">
+                  <button type='button' className="btn btn-outline-primary mt-1">
                      Search
                   </button>
                </form>
@@ -85,8 +85,8 @@ export const SearchPage = () => {
                </div>
 
                {
-                  heroes.map((hero, id) => {
-                     return <HeroCard key={ id } { ...hero } />
+                  heroes.map((hero, idx) => {
+                     return <HeroCard key={ hero.superhero } { ...hero } />
                   })
                }
 

@@ -3,12 +3,12 @@ import { heroes } from "../data/heroes"
 
 export const getHeroByName = (name = '') => {
 
-   name = name.toLocaleLowerCase().trim();
+   const formattedName = name.toLocaleLowerCase().trim();
 
-   if (name.length === 0) return [];
+   if (formattedName.length === 0) return [];
 
 
    return heroes.filter(
-      hero => hero.superhero.toLocaleLowerCase().includes(name)
+      hero => hero.superhero.toLocaleLowerCase().includes(formattedName)
    )
 }
